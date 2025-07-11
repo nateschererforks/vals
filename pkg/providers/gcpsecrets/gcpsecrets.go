@@ -11,7 +11,7 @@ import (
 	smpb "cloud.google.com/go/secretmanager/apiv1/secretmanagerpb"
 	"gopkg.in/yaml.v3"
 
-	"github.com/helmfile/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/api"
 )
 
 // Format: ref+gcpsecrets://project/mykey[?version=VERSION][&fallback=valuewhenkeyisnotfound][&optional=true][&trim_nl=true]#/yaml_or_json_key/in/secret

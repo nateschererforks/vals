@@ -70,7 +70,7 @@ For this example, use the [Vault](https://www.terraform.io/docs/providers/vault/
 Let's start by writing some secret value to `Vault`:
 
 ```console
-$ vault kv put secret/foo mykey=myvalue
+vault kv put secret/foo mykey=myvalue
 ```
 
 Now input the template of your YAML and refer to `vals`' Vault provider by using `ref+vault` in the URI scheme:
@@ -147,7 +147,7 @@ type: Opaque
 Finally run `kubectl apply` to apply manifests:
 
 ```console
-$ kubectl apply -f all.yaml
+kubectl apply -f all.yaml
 ```
 
 This gives you a solid foundation for building a secure CD system as you need to allow access to a secrets store like Vault only from servers or containers that pulls safe manifests and runs deployments.
@@ -157,7 +157,7 @@ In other words, you can safely omit access from the CI to the secrets store.
 ### Go
 
 ```go
-import "github.com/helmfile/vals"
+import "github.com/nateschererforks/vals"
 
 secretsToCache := 256 // how many secrets to keep in LRU cache
 runtime, err := vals.New(secretsToCache)
@@ -201,17 +201,17 @@ Finally, the optional trailing `+` is the explicit "end" of the expression. You 
 
 Although we mention the RFC for the sake of explanation, `PARAMS` and `FRAGMENT` might not be fully RFC-compliant as, under the hood, we use a simple regexp that seemed to work for most of use-cases.
 
-The regexp is defined as [DefaultRefRegexp](#https://github.com/helmfile/vals/blob/86bccbee4d5f430b7d24b2e3af781336767c0d35/pkg/expansion/expand_match.go#L15) in our code base.
+The regexp is defined as [DefaultRefRegexp](#https://github.com/nateschererforks/vals/blob/86bccbee4d5f430b7d24b2e3af781336767c0d35/pkg/expansion/expand_match.go#L15) in our code base.
 
-Please see the [relevant unit test cases](https://github.com/helmfile/vals/blob/main/pkg/expansion/expand_match_test.go) for exactly which patterns are supposed to work with `vals`.
+Please see the [relevant unit test cases](https://github.com/nateschererforks/vals/blob/main/pkg/expansion/expand_match_test.go) for exactly which patterns are supposed to work with `vals`.
 
 ## Supported Backends
 
 - [vals](#vals)
   - [Usage](#usage)
 - [CLI](#cli)
-    - [Helm](#helm)
-    - [Go](#go)
+  - [Helm](#helm)
+  - [Go](#go)
   - [Expression Syntax](#expression-syntax)
   - [Supported Backends](#supported-backends)
     - [Vault](#vault)
@@ -255,7 +255,7 @@ Please see the [relevant unit test cases](https://github.com/helmfile/vals/blob/
     - [Complex String-Interpolation / Template Functions](#complex-string-interpolation--template-functions)
     - [Merge](#merge)
 
-Please see [pkg/providers](https://github.com/helmfile/vals/tree/master/pkg/providers) for the implementations of all the providers. The package names corresponds to the URI schemes.
+Please see [pkg/providers](https://github.com/nateschererforks/vals/tree/master/pkg/providers) for the implementations of all the providers. The package names corresponds to the URI schemes.
 
 ### Vault
 
@@ -263,20 +263,20 @@ Please see [pkg/providers](https://github.com/helmfile/vals/tree/master/pkg/prov
 - `ref+vault://PATH/TO/KVBACKEND[?address=VAULT_ADDR:PORT&auth_method=approle&role_id=ce5e571a-f7d4-4c73-93dd-fd6922119839&secret_id=5c9194b9-585e-4539-a865-f45604bd6f56]#/fieldkey`
 - `ref+vault://PATH/TO/KVBACKEND[?address=VAULT_ADDR:PORT&auth_method=kubernetes&role_id=K8S-ROLE`
 
-* `address` defaults to the value of the `VAULT_ADDR` envvar.
-* `namespace` defaults to the value of the `VAULT_NAMESPACE` envvar.
-* `auth_method` default to `token` and can also be set to the value of the `VAULT_AUTH_METHOD` envar.
-* `role_id` defaults to the value of the `VAULT_ROLE_ID` envvar.
-* `secret_id` defaults to the value of the `VAULT_SECRET_ID` envvar.
-* `version` is the specific version of the secret to be obtained. Used when you want to get a previous content of the secret.
+- `address` defaults to the value of the `VAULT_ADDR` envvar.
+- `namespace` defaults to the value of the `VAULT_NAMESPACE` envvar.
+- `auth_method` default to `token` and can also be set to the value of the `VAULT_AUTH_METHOD` envar.
+- `role_id` defaults to the value of the `VAULT_ROLE_ID` envvar.
+- `secret_id` defaults to the value of the `VAULT_SECRET_ID` envvar.
+- `version` is the specific version of the secret to be obtained. Used when you want to get a previous content of the secret.
 
 ### Authentication
 
 The `auth_method` or `VAULT_AUTH_METHOD` envar configures how `vals` authenticates to HashiCorp Vault. Currently only these options are supported:
 
-* [approle](https://www.vaultproject.io/docs/auth/approle#via-the-api): it requires you pass on a `role_id` together with a `secret_id`.
-* [token](https://www.vaultproject.io/docs/auth/token): you just need creating and passing on a `VAULT_TOKEN`. If `VAULT_TOKEN` isn't set, token can be retrieved from `VAULT_TOKEN_FILE` env or `~/.vault-token` file.
-* [kubernetes](https://www.vaultproject.io/docs/auth/kubernetes): if you're running inside a Kubernetes cluster, you can use this option. It requires you [configure](https://www.vaultproject.io/docs/auth/kubernetes#configuration) a policy, a Kubernetes role, a service account and a JWT token. The login path can also be set using the environment variable `VAULT_KUBERNETES_MOUNT_POINT` (default is `/kubernetes`). You must also set `role_id` or `VAULT_ROLE_ID` envar to the Kubernetes role.
+- [approle](https://www.vaultproject.io/docs/auth/approle#via-the-api): it requires you pass on a `role_id` together with a `secret_id`.
+- [token](https://www.vaultproject.io/docs/auth/token): you just need creating and passing on a `VAULT_TOKEN`. If `VAULT_TOKEN` isn't set, token can be retrieved from `VAULT_TOKEN_FILE` env or `~/.vault-token` file.
+- [kubernetes](https://www.vaultproject.io/docs/auth/kubernetes): if you're running inside a Kubernetes cluster, you can use this option. It requires you [configure](https://www.vaultproject.io/docs/auth/kubernetes#configuration) a policy, a Kubernetes role, a service account and a JWT token. The login path can also be set using the environment variable `VAULT_KUBERNETES_MOUNT_POINT` (default is `/kubernetes`). You must also set `role_id` or `VAULT_ROLE_ID` envar to the Kubernetes role.
 
 Examples:
 
@@ -368,6 +368,7 @@ Examples:
 Decrypts the URL-safe base64-encoded ciphertext using AWS KMS. Note that URL-safe base64 encoding is
 the same as "traditional" base64 encoding, except it uses `_` and `-` in place of `/` and `+`, respectively.
 For example, to get a URL-safe base64-encoded ciphertext using the AWS CLI, you might run
+
 ```
 aws kms encrypt \
   --key-id alias/example \
@@ -378,15 +379,15 @@ aws kms encrypt \
 ```
 
 Valid values for `alg` include:
-* `SYMMETRIC_DEFAULT` (the default)
-* `RSAES_OAEP_SHA_1`
-* `RSAES_OAEP_SHA_256`
+- `SYMMETRIC_DEFAULT` (the default)
+- `RSAES_OAEP_SHA_1`
+- `RSAES_OAEP_SHA_256`
 
 Valid value formats for `key` include:
-* A key id `1234abcd-12ab-34cd-56ef-1234567890ab`
-* A URL-encoded key id ARN: `arn%3Aaws%3Akms%3Aus-east-2%3A111122223333%3Akey%2F1234abcd-12ab-34cd-56ef-1234567890ab`
-* A URL-encoded key alias: `alias%2FExampleAlias`
-* A URL-encoded key alias ARN: `arn%3Aaws%3Akms%3Aus-east-2%3A111122223333%3Aalias%2FExampleAlias`
+- A key id `1234abcd-12ab-34cd-56ef-1234567890ab`
+- A URL-encoded key id ARN: `arn%3Aaws%3Akms%3Aus-east-2%3A111122223333%3Akey%2F1234abcd-12ab-34cd-56ef-1234567890ab`
+- A URL-encoded key alias: `alias%2FExampleAlias`
+- A URL-encoded key alias ARN: `arn%3Aaws%3Akms%3Aus-east-2%3A111122223333%3Aalias%2FExampleAlias`
 
 For ciphertext encrypted with a symmetric key, the `key` field may be omitted. For ciphertext
 encrypted with a key in your own account, a plain key id or alias can be used. If the encryption
@@ -398,6 +399,7 @@ if the encryption context is `{"foo":"bar","hello":"world"}`, then you would rep
 `context=%7B%22foo%22%3A%22bar%22%2C%22hello%22%2C%22world%22%7D`.
 
 Examples:
+
 - `ref+awskms://AQICAHhy_i8hQoGLOE46PVJyinH...WwHKT0i3H0znHRHwfyC7AGZ8ek=`
 - `ref+awskms://AQICAHhy...nHRHwfyC7AGZ8ek=#/foo/bar`
 - `ref+awskms://AQICAHhy...WwHKT0i3AGZ8ek=?context=%7B%22foo%22%3A%22bar%22%2C%22hello%22%2C%22world%22%7D`
@@ -405,6 +407,7 @@ Examples:
 - `ref+awskms://AQICA...fyC7AGZ8ek=?alg=RSAES_OAEP_SHA256&key=arn%3Aaws%3Akms%3Aus-east-2%3A111122223333%3Akey%2F1234abcd-12ab-34cd-56ef-1234567890ab&context=%7B%22foo%22%3A%22bar%22%2C%22hello%22%2C%22world%22%7D`
 
 #### Google GCS
+
 - `ref+gcs://BUCKET/KEY/OF/OBJECT[?generation=ID]`
 - `ref+gcs://BUCKET/KEY/OF/OBJECT[?generation=ID]#/yaml_or_json_key/in/secret`
 
@@ -438,6 +441,7 @@ Examples:
 - `ref+gkms://BASE64CIPHERTEXT?project=myproject&location=global&keyring=mykeyring&crypto_key=mykey#/yaml_or_json_key/in/secret`
 
 Decrypts the URL-safe base64-encoded ciphertext using GCP KMS. Note that URL-safe base64 encoding is the same as "traditional" base64 encoding, except it uses _ and - in place of / and +, respectively. For example, to get a URL-safe base64-encoded ciphertext using the GCP CLI, you might run
+
 ```
 echo test | gcloud kms encrypt \
   --project myproject \
@@ -490,13 +494,13 @@ foo: arn:aws:ec2:us-east-2:ACCOUNT_ID:vpc/vpc-0cb48a12e4df7ad4c
 You can also grab a Terraform output by using `output.OUTPUT_NAME` like:
 
 ```
-$ tfstate-lookup -s ./terraform.tfstate output.mystack_apply
+tfstate-lookup -s ./terraform.tfstate output.mystack_apply
 ```
 
 which is equivalent to the following input for `vals`:
 
 ```
-$ echo 'foo: ref+tfstate://terraform.tfstate/output.mystack_apply' | vals eval -f -
+echo 'foo: ref+tfstate://terraform.tfstate/output.mystack_apply' | vals eval -f -
 ```
 
 Remote backends like S3, GCS and AzureRM blob store are also supported. When a remote backend is used in your terraform workspace, there should be a local file at `./terraform/terraform.tfstate` that contains the reference to the backend:
@@ -535,7 +539,7 @@ $ tfstate-lookup -s gs://bucket-with-terraform-state/terraform.tfstate google_co
 which is equivalent to the following input for `vals`:
 
 ```
-$ echo 'foo: ref+tfstategs://bucket-with-terraform-state/terraform.tfstate/google_compute_disk.instance.source_image_id' | vals eval -f -
+echo 'foo: ref+tfstategs://bucket-with-terraform-state/terraform.tfstate/google_compute_disk.instance.source_image_id' | vals eval -f -
 ```
 
 ### Terraform in S3 bucket (tfstates3)
@@ -556,8 +560,9 @@ arn:aws:ec2:us-east-2:ACCOUNT_ID:vpc/vpc-0cb48a12e4df7ad4c
 which is equivalent to the following input for `vals`:
 
 ```
-$ echo 'foo: ref+tfstates3://bucket-with-terraform-state/terraform.tfstate/module.vpc.aws_vpc.this[0].arn' | vals eval -f -
+echo 'foo: ref+tfstates3://bucket-with-terraform-state/terraform.tfstate/module.vpc.aws_vpc.this[0].arn' | vals eval -f -
 ```
+
 ### Terraform in AzureRM Blob storage (tfstateazurerm)
 
 - `ref+tfstateazurerm://{resource_group_name}/{storage_account_name}/{container_name}/{blob_name}.tfstate/RESOURCE_NAME[?az_subscription_id=SUBSCRIPTION_ID]`
@@ -570,13 +575,13 @@ Examples:
 It allows to use Terraform state stored in Azure Blob storage given the resource group, storage account, container name and blob name. You can try to read the state with command:
 
 ```
-$ tfstate-lookup -s azurerm://my_rg/my_storage_account/terraform-backend/unique.terraform.tfstate output.virtual_network.name
+tfstate-lookup -s azurerm://my_rg/my_storage_account/terraform-backend/unique.terraform.tfstate output.virtual_network.name
 ```
 
 which is equivalent to the following input for `vals`:
 
 ```
-$ echo 'foo: ref+tfstateazurerm://my_rg/my_storage_account/terraform-backend/unique.terraform.tfstate/output.virtual_network.name' | vals eval -f -
+echo 'foo: ref+tfstateazurerm://my_rg/my_storage_account/terraform-backend/unique.terraform.tfstate/output.virtual_network.name' | vals eval -f -
 ```
 
 ### Terraform in Terraform Cloud / Terraform Enterprise (tfstateremote)
@@ -590,13 +595,13 @@ Examples:
 It allows to use Terraform state stored in Terraform Cloud / Terraform Enterprise given the resource group, the organization and the workspace. You can try to read the state with command (with exported variable `TFE_TOKEN`):
 
 ```
-$ tfstate-lookup -s remote://app.terraform.io/myorg/myworkspace output.virtual_network.name
+tfstate-lookup -s remote://app.terraform.io/myorg/myworkspace output.virtual_network.name
 ```
 
 which is equivalent to the following input for `vals`:
 
 ```
-$ echo 'foo: ref+tfstateremote://app.terraform.io/myorg/myworkspace/output.virtual_network.name' | vals eval -f -
+echo 'foo: ref+tfstateremote://app.terraform.io/myorg/myworkspace/output.virtual_network.name' | vals eval -f -
 ```
 
 ### SOPS
@@ -662,6 +667,7 @@ Retrieve secrets from Azure Key Vault. Path is used to specify the vault and sec
 
 VAULT-NAME is either a simple name if operating in AzureCloud (vault.azure.net) or the full endpoint dns name when operating against non-default azure clouds (US Gov Cloud, China Cloud, German Cloud).
 Examples:
+
 - `ref+azurekeyvault://my-vault/secret-a`
 - `ref+azurekeyvault://my-vault/secret-a/ba4f196b15f644cd9e949896a21bab0d`
 - `ref+azurekeyvault://gov-cloud-test.vault.usgovcloudapi.net/secret-b`
@@ -675,12 +681,13 @@ Other authentication methods require information to be passed in environment var
 For example, if using client credentials the required env vars are `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_TENANT_ID` and possibly `AZURE_ENVIRONMENT` in case of accessing an Azure GovCloud.
 
 The order in which authentication methods are checked is:
+
 1. Client credentials
 2. Client certificate
 3. Username/Password
 4. Azure CLI or Managed identity (set environment `AZURE_USE_MSI=true` to enabled MSI)
 
-more see: https://github.com/helmfile/vals/issues/441
+more see: <https://github.com/nateschererforks/vals/issues/441>
 
 ### EnvSubst
 
@@ -696,7 +703,6 @@ Examples:
 
 For this provider to work you require an [access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) exported as the environment variable `GITLAB_TOKEN`.
 
-
 - `ref+gitlab://my-gitlab-server.com/project_id/secret_name?[ssl_verify=false&scheme=https&api_version=v4]`
 
 Examples:
@@ -708,6 +714,7 @@ Examples:
 
 For this provider to work a working [service account token](https://developer.1password.com/docs/service-accounts/get-started/) is required.
 The following env var has to be configured:
+
 - `OP_SERVICE_ACCOUNT_TOKEN`
 
 1Password is organized in vaults and items.
@@ -730,6 +737,7 @@ Examples:
 
 For this provider to work you require a working and accessible [1Password connect server](https://developer.1password.com/docs/connect).
 The following env vars have to be configured:
+
 - `OP_CONNECT_HOST`
 - `OP_CONNET_TOKEN`
 
@@ -751,13 +759,13 @@ Examples:
 
 - `ref+doppler://PROJECT/ENVIRONMENT/SECRET_KEY[?token=dp.XX.XXXXXX&address=https://api.doppler.com&no_verify_tls=false&include_doppler_defaults=false]`
 
-* `PROJECT` can be absent if the Token is a `Service Token` for that project. It can be set via `DOPPLER_PROJECT` envvar. See [Doppler docs](https://docs.doppler.com/docs/enclave-service-tokens) for more information.
-* `ENVIRONMENT` (aka: "Config") can be absent if the Token is a `Service Token` for that project. It can be set via `DOPPLER_ENVIRONMENT` envvar. See [Doppler docs](https://docs.doppler.com/docs/enclave-service-tokens) for more information.
-* `SECRET_KEY` can be absent and it will fetch all secrets for the project/environment.
-* `token` defaults to the value of the `DOPPLER_TOKEN` envvar.
-* `address` defaults to the value of the `DOPPLER_API_ADDR` envvar, if unset: `https://api.doppler.com`.
-* `no_verify_tls` default `false`.
-* `include_doppler_defaults` defaults to `false`, if set to `true` it will include the Doppler defaults for the project/environment (DOPPLER_ENVIRONMENT, DOPPLER_PROJECT and DOPPLER_CONFIG). It only works when `SECRET_KEY` is absent.
+- `PROJECT` can be absent if the Token is a `Service Token` for that project. It can be set via `DOPPLER_PROJECT` envvar. See [Doppler docs](https://docs.doppler.com/docs/enclave-service-tokens) for more information.
+- `ENVIRONMENT` (aka: "Config") can be absent if the Token is a `Service Token` for that project. It can be set via `DOPPLER_ENVIRONMENT` envvar. See [Doppler docs](https://docs.doppler.com/docs/enclave-service-tokens) for more information.
+- `SECRET_KEY` can be absent and it will fetch all secrets for the project/environment.
+- `token` defaults to the value of the `DOPPLER_TOKEN` envvar.
+- `address` defaults to the value of the `DOPPLER_API_ADDR` envvar, if unset: `https://api.doppler.com`.
+- `no_verify_tls` default `false`.
+- `include_doppler_defaults` defaults to `false`, if set to `true` it will include the Doppler defaults for the project/environment (DOPPLER_ENVIRONMENT, DOPPLER_PROJECT and DOPPLER_CONFIG). It only works when `SECRET_KEY` is absent.
 
 Examples:
 
@@ -775,12 +783,12 @@ Obtain value in state pulled from Pulumi Cloud REST API:
 
 - `ref+pulumistateapi://RESOURCE_TYPE/RESOURCE_LOGICAL_NAME/ATTRIBUTE_TYPE/ATTRIBUTE_KEY_PATH?project=PROJECT&stack=STACK`
 
-* `RESOURCE_TYPE` is a Pulumi [resource type](https://www.pulumi.com/docs/concepts/resources/names/#types) of the form `<package>:<module>:<type>`, where forward slashes (`/`) are replaced by a double underscore (`__`) and colons (`:`) are replaced by a single underscore (`_`). For example `aws:s3:Bucket` would be encoded as `aws__s3__Bucket` and `kubernetes:storage.k8s.io/v1:StorageClass` would be encoded as `kubernetes_storage.k8s.io__v1_StorageClass`. To read Pulumi stack outputs, set the resource type to `pulumi_pulumi_Stack`.
-* `RESOURCE_LOGICAL_NAME` is the [logical name](https://www.pulumi.com/docs/concepts/resources/names/#logicalname) of the resource in the Pulumi program. To read Pulumi stack outputs, set this to the project name followed by a hyphen, then the stack name.
-* `ATTRIBUTE_TYPE` is either `outputs` or `inputs`.
-* `ATTRIBUTE_KEY_PATH` is a [GJSON](https://github.com/tidwall/gjson/blob/master/SYNTAX.md) expression that selects the desired attribute from the resource's inputs or outputs per the chosen `ATTRIBUTE_TYPE` value. You must encode any characters that would otherwise not comply with URI syntax, for example `#` becomes `%23`.
-* `project` is the Pulumi project name. May also be provided via the `PULUMI_PROJECT` environment variable.
-* `stack` is the Pulumi stack name. May also be provided via the `PULUMI_STACK` environment variable.
+- `RESOURCE_TYPE` is a Pulumi [resource type](https://www.pulumi.com/docs/concepts/resources/names/#types) of the form `<package>:<module>:<type>`, where forward slashes (`/`) are replaced by a double underscore (`__`) and colons (`:`) are replaced by a single underscore (`_`). For example `aws:s3:Bucket` would be encoded as `aws__s3__Bucket` and `kubernetes:storage.k8s.io/v1:StorageClass` would be encoded as `kubernetes_storage.k8s.io__v1_StorageClass`. To read Pulumi stack outputs, set the resource type to `pulumi_pulumi_Stack`.
+- `RESOURCE_LOGICAL_NAME` is the [logical name](https://www.pulumi.com/docs/concepts/resources/names/#logicalname) of the resource in the Pulumi program. To read Pulumi stack outputs, set this to the project name followed by a hyphen, then the stack name.
+- `ATTRIBUTE_TYPE` is either `outputs` or `inputs`.
+- `ATTRIBUTE_KEY_PATH` is a [GJSON](https://github.com/tidwall/gjson/blob/master/SYNTAX.md) expression that selects the desired attribute from the resource's inputs or outputs per the chosen `ATTRIBUTE_TYPE` value. You must encode any characters that would otherwise not comply with URI syntax, for example `#` becomes `%23`.
+- `project` is the Pulumi project name. May also be provided via the `PULUMI_PROJECT` environment variable.
+- `stack` is the Pulumi stack name. May also be provided via the `PULUMI_STACK` environment variable.
 
 Environment variables:
 
@@ -826,9 +834,10 @@ Examples:
 ### Conjur
 
 This provider retrieves the value of secrets stored in [Conjur](https://www.conjur.org/).
-It's based on the https://github.com/cyberark/conjur-api-go lib.
+It's based on the <https://github.com/cyberark/conjur-api-go> lib.
 
 The following env vars have to be configured:
+
 - `CONJUR_APPLIANCE_URL`
 - `CONJUR_ACCOUNT`
 - `CONJUR_AUTHN_LOGIN`
@@ -871,19 +880,19 @@ Example:
 
 `ref+hcpvaultsecrets://APPLICATION_NAME/SECRET_NAME[?client_id=HCP_CLIENT_ID&client_secret=HCP_CLIENT_SECRET&organization_id=HCP_ORGANIZATION_ID&organization_name=HCP_ORGANIZATION_NAME&project_id=HCP_PROJECT_ID&project_name=HCP_PROJECT_NAME&version=2]`
 
-
 ### Bitwarden
+
 This provider retrieves the secrets stored in Bitwarden. It uses the [Bitwarden Vault-Management API](https://bitwarden.com/help/vault-management-api/) that is included in the [Bitwarden CLI](https://github.com/bitwarden/clients) by executing `bw serve`.
 
 Environment variables:
 
-- `BW_API_ADDR`: The Bitwarden Vault Management API service address, defaults to http://localhost:8087
+- `BW_API_ADDR`: The Bitwarden Vault Management API service address, defaults to <http://localhost:8087>
 
 Parameters:
 
 Parameters are optional and can be passed as query parameters in the URI, taking precedence over environment variables.
 
-* `address` defaults to the value of the `BW_API_ADDR` envvar.
+- `address` defaults to the value of the `BW_API_ADDR` envvar.
 
 Examples:
 
@@ -910,7 +919,8 @@ Examples:
 
 `ref+httpjson://<domain>/<path>?[insecure=false&floatAsInt=false]#/<xpath>`
 
-Let's say you want to fetch the below JSON object from https://api.github.com/users/helmfile/repos:
+Let's say you want to fetch the below JSON object from <https://api.github.com/users/helmfile/repos>:
+
 ```json
 [
     {
@@ -921,6 +931,7 @@ Let's say you want to fetch the below JSON object from https://api.github.com/us
     }
 ]
 ```
+
 ```
 # To get name="chartify" using https protocol you would use:
 ref+httpjson://api.github.com/users/helmfile/repos#///*[1]/name
@@ -936,7 +947,8 @@ ref+httpjson://api.github.com/users/helmfile/repos?insecure=true#///*[2]/
 
 `ref+httpjson://<domain>/<path>?[insecure=false&floatAsInt=false]#/<xpath>`
 
-Let's say you want to fetch the below JSON object from https://api.github.com/users/helmfile/repos:
+Let's say you want to fetch the below JSON object from <https://api.github.com/users/helmfile/repos>:
+
 ```json
 [
     {
@@ -944,6 +956,7 @@ Let's say you want to fetch the below JSON object from https://api.github.com/us
     }
 ]
 ```
+
 ```
 # Running the following will return: 2.51296379e+08
 ref+httpjson://api.github.com/users/helmfile/repos#///*[1]/id
@@ -951,7 +964,6 @@ ref+httpjson://api.github.com/users/helmfile/repos#///*[1]/id
 # Running the following will return: 251296379
 ref+httpjson://api.github.com/users/helmfile/repos?floatAsInt=true#///*[1]/id
 ```
-
 
 ## Advanced Usages
 

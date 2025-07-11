@@ -13,8 +13,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3iface"
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/helmfile/vals/pkg/config"
-	"github.com/helmfile/vals/pkg/log"
+	"github.com/nateschererforks/vals/pkg/config"
+	"github.com/nateschererforks/vals/pkg/log"
 )
 
 type mockedS3 struct {

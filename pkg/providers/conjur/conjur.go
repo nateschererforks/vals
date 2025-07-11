@@ -7,8 +7,8 @@ import (
 	"github.com/cyberark/conjur-api-go/conjurapi"
 	"github.com/cyberark/conjur-api-go/conjurapi/authn"
 
-	"github.com/helmfile/vals/pkg/api"
-	"github.com/helmfile/vals/pkg/log"
+	"github.com/nateschererforks/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/log"
 )
 
 type provider struct {

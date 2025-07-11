@@ -1,4 +1,4 @@
-module github.com/helmfile/vals
+module github.com/nateschererforks/vals
 
 go 1.24.2
 

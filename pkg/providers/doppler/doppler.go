@@ -9,8 +9,8 @@ import (
 	dopplerhttp "github.com/DopplerHQ/cli/pkg/http"
 	dopplermodels "github.com/DopplerHQ/cli/pkg/models"
 
-	"github.com/helmfile/vals/pkg/api"
-	"github.com/helmfile/vals/pkg/log"
+	"github.com/nateschererforks/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/log"
 )
 
 type provider struct {

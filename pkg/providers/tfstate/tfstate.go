@@ -9,7 +9,7 @@ import (
 
 	"github.com/fujiwara/tfstate-lookup/tfstate"
 
-	"github.com/helmfile/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/api"
 )
 
 type provider struct {

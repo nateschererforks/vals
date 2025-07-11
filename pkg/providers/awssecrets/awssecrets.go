@@ -9,9 +9,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 	"gopkg.in/yaml.v3"
 
-	"github.com/helmfile/vals/pkg/api"
-	"github.com/helmfile/vals/pkg/awsclicompat"
-	"github.com/helmfile/vals/pkg/log"
+	"github.com/nateschererforks/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/awsclicompat"
+	"github.com/nateschererforks/vals/pkg/log"
 )
 
 type provider struct {
@@ -96,7 +96,7 @@ func (p *provider) GetStringMap(key string) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	metaKeysField := "github.com/helmfile/vals"
+	metaKeysField := "github.com/nateschererforks/vals"
 	f, ok := meta[metaKeysField]
 	if !ok {
 		return nil, fmt.Errorf("%q not found", metaKeysField)

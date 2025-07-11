@@ -88,7 +88,7 @@ func TestExpandRegexpMatchInString(t *testing.T) {
 			expected: "\"no-referrer\" always;\nreturn 301 $scheme://$host:$server_port/remote.php/dav;",
 		},
 		{
-			// see https://github.com/helmfile/vals/issues/57
+			// see https://github.com/nateschererforks/vals/issues/57
 			name:     "it should skip newline after fragment",
 			regex:    DefaultRefRegexp,
 			only:     []string{"ref", "secretref"},
@@ -96,7 +96,7 @@ func TestExpandRegexpMatchInString(t *testing.T) {
 			expected: "vault-srv-/foo/bar\n",
 		},
 		{
-			// see https://github.com/helmfile/vals/issues/57
+			// see https://github.com/nateschererforks/vals/issues/57
 			name:     "it should skip newline after path",
 			regex:    DefaultRefRegexp,
 			only:     []string{"ref", "secretref"},

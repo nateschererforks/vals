@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	config2 "github.com/helmfile/vals/pkg/config"
+	config2 "github.com/nateschererforks/vals/pkg/config"
 )
 
 func TestValues_HCPVaultSecrets_String(t *testing.T) {

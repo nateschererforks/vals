@@ -10,8 +10,8 @@ import (
 
 	"github.com/tidwall/gjson"
 
-	"github.com/helmfile/vals/pkg/api"
-	"github.com/helmfile/vals/pkg/log"
+	"github.com/nateschererforks/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/log"
 )
 
 const (

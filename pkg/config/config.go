@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/helmfile/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/api"
 )
 
 type MapConfig struct {
