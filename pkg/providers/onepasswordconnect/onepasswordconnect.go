@@ -8,7 +8,7 @@ import (
 	"github.com/1Password/connect-sdk-go/connect"
 	"gopkg.in/yaml.v3"
 
-	"github.com/helmfile/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/api"
 )
 
 type provider struct {

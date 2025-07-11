@@ -10,7 +10,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/vault/api"
 
-	config2 "github.com/helmfile/vals/pkg/config"
+	config2 "github.com/nateschererforks/vals/pkg/config"
 )
 
 type Conn struct {

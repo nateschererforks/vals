@@ -9,8 +9,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/stretchr/testify/require"
 
-	"github.com/helmfile/vals/pkg/config"
-	"github.com/helmfile/vals/pkg/log"
+	"github.com/nateschererforks/vals/pkg/config"
+	"github.com/nateschererforks/vals/pkg/log"
 )
 
 // Setup:

@@ -9,7 +9,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/helmfile/vals"
+	"github.com/nateschererforks/vals"
 )
 
 var (

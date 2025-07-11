@@ -6,8 +6,8 @@ import (
 	"github.com/cyberark/conjur-api-go/conjurapi"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/helmfile/vals/pkg/config"
-	"github.com/helmfile/vals/pkg/log"
+	"github.com/nateschererforks/vals/pkg/config"
+	"github.com/nateschererforks/vals/pkg/log"
 )
 
 func Test_New(t *testing.T) {

@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	config2 "github.com/helmfile/vals/pkg/config"
-	"github.com/helmfile/vals/pkg/providers/httpjson"
+	config2 "github.com/nateschererforks/vals/pkg/config"
+	"github.com/nateschererforks/vals/pkg/providers/httpjson"
 )
 
 const HttpJsonPrefix = "httpjson://"

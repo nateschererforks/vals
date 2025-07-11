@@ -143,7 +143,7 @@ formatters:
       sections:
         - standard
         - default
-        - prefix(github.com/helmfile/vals)
+        - prefix(github.com/nateschererforks/vals)
     gofmt:
       simplify: true
   exclusions:

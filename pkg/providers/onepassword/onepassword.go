@@ -7,7 +7,7 @@ import (
 
 	"github.com/1password/onepassword-sdk-go"
 
-	"github.com/helmfile/vals/pkg/api"
+	"github.com/nateschererforks/vals/pkg/api"
 )
 
 type provider struct {

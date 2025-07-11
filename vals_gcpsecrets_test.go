@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/helmfile/vals/pkg/config"
+	"github.com/nateschererforks/vals/pkg/config"
 )
 
 // setup:

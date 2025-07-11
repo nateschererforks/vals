@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/helmfile/vals/pkg/config"
+	"github.com/nateschererforks/vals/pkg/config"
 )
 
 const textFileContent = "file content"
