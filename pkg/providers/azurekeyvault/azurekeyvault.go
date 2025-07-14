@@ -111,7 +111,7 @@ func getTokenCredential() (azcore.TokenCredential, error) {
 		}
 		chain = append(chain, cred)
 	default:
-		panic("Environment variable 'AZKV_AUTH' is set to an unsupported value!")
+		return errors.New("Environment variable 'AZKV_AUTH' is set to an unsupported value!")
 	}
 
 	cred, err := azidentity.NewChainedTokenCredential(chain, nil)
